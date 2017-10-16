@@ -3,7 +3,7 @@ fila = ['A','N','G','E','L','O']
 print(fila)
 print("")
 for i in range(len(pilha)):
-print(fila.pop(0))
+  print(fila.pop(0))
 
 print("")
 print("a A pilha atual tem esses elemntos:", end="")
