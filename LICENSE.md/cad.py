@@ -11,7 +11,7 @@ while resposta == True:
     print ("O seu cadastro foi feito")
     print cadVendedores
     resposta= raw_input("Voce deseja cadastrar mais um? ")
-    if resposta=yes:
+    if resposta=="yes":
         resposta=True
     else:
         resposta=False
