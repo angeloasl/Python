@@ -2,22 +2,22 @@
 info = {'Nome': "", 'IngressosRecebidos': "", 'Fase': ""} 
 cadVendedores = []
 resposta = True
-def NameCaracteres(string)
+def NameCaracteres(string):
     while (len(string)<10):
         Name = Name + ""
         Name = Name[:10]
         return Name
-def NameCaracteres(string)
+def NameCaracteres(string):
     while (len(string)<2):
         NIng = NIng + ""
         NIng = NIng[:2]
         return NIng
-def NameCaracteres(string)
+def NameCaracteres(string):
     while (len(string)<2):
         Fase = Fase + ""
         Fase = Fase[:2]
         return Fase
-def NameCaracteres(string)
+def NameCaracteres(string):
     while (len(string)<2):
         Age = Age + ""
         Age = Age[:2]
