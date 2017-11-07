@@ -15,9 +15,18 @@ while resposta == True:
         resposta=False
 
 while resposta == False:
-    listpessoas= info
+    info2 = info
+    listpessoas = info
+    listpessoas2 = info2
     aleatorio=random.randint(0,n)
     pessoaescolhida1=listpessoas[aleatorio]
     listpessoas.pop(aleatorio)
-    pessoaescolhida2=listapessoas[aleatorio]
+    pessoaescolhida2=listpessoas[aleatorio]
     print ("Pessoa1", pessoaescolhida1, "Pessoa2", pessoaescolhida2)
+    aleatorio2=random.randint(0,n)
+    pessoaescolhida3=listpessoas2[aleatorio2]
+    listpessoas2.pop(aleatorio2)
+    pessoaescolhida4=listpessoas2[aleatorio2]
+    print ("Pessoa3", pessoaescolhida1, "Pessoa4", pessoaescolhida2)
+    n = n-2
+
