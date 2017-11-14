@@ -25,14 +25,16 @@ produto = [a,c,e,g,i]
 valor = [b,d,f,h,]
 usuario = int(input("Quantos produtos diferentes voce quer comprar?"))
 i = 1
-z = 0
 
 while(i <= usuario):
     n=(input("Numero do Produto %i :" %i))
     print(produto[n])
     a=(input("Quantidade do Produto %i :" %i))
-    print(valor[n]*a)
+    print(int(valor[n])*a)
     i += 1
 
+
+    
+    
 
     
