@@ -1,10 +1,9 @@
-# Tic Tac Toe
+# Jogo da Velha
 
 import random
 
 def DesTabela(tabela):
-    # This function prints out the board that it was passed.
-    # "board" is a list of 10 strings representing the board (ignore index 0)
+    
     print('   |   |')
     print(' ' + tabela[1] + ' | ' + tabela[2] + ' | ' + tabela[3])
     print('   |   |')
@@ -18,44 +17,38 @@ def DesTabela(tabela):
     print('   |   |')
 
 def JogadorLetra():
-    # Lets the player type which letter they want to be.
-    # Returns a list with the player’s letter as the first item, and the computer's letter as the second.
-    letter = ''
-    while not (letter == 'X' or letter == 'O'):
+    letra = ''
+    while not (letra == 'X' or letra == 'O'):
         print('Voce quer ser X ou O?')
-        letter = input().upper()
-    # the first element in the list is the player’s letter, the second is the computer's letter.
-    if letter == 'X':
+        letra = input().upper()
+    if letra == 'X':
         return ['X', 'O']
     else:
         return ['O', 'X']
 
 def QuemComeca():
-    # Randomly choose the player who goes first.
     if random.randint(0, 1) == 0:
         return 'computador'
     else:
         return 'jogador'
 
 def ContinuarJogando():
-    # This function returns True if the player wants to play again, otherwise it returns False.
     print('Quer continuar jogando? (sim ou nao)')
     return input().lower().startswith('s')
 
-def Mover(tabela, letter, move):
-     tabela[move] = letter
+def Mover(tabela, letra, numero):
+     tabela[numero] = letra
 
-def Ganhador(bo, le):
-    # Given a board and a player’s letter, this function returns True if that player has won.
-    # We use bo instead of board and le instead of letter so we don’t have to type as much.
-    return ((bo[7] == le and bo[8] == le and bo[9] == le) or # across the top
-    (bo[4] == le and bo[5] == le and bo[6] == le) or # across the middle
-    (bo[1] == le and bo[2] == le and bo[3] == le) or # across the bottom
-    (bo[7] == le and bo[4] == le and bo[1] == le) or # down the left side
-    (bo[8] == le and bo[5] == le and bo[2] == le) or # down the middle
-    (bo[9] == le and bo[6] == le and bo[3] == le) or # down the right side
-    (bo[7] == le and bo[5] == le and bo[3] == le) or # diagonal
-    (bo[9] == le and bo[5] == le and bo[1] == le)) # diagonal
+def Ganhador(tabela, letra):
+    return ((tabela[7] == letra and tabela[8] == letra and tabela[9] == letra) or 
+    (tabela[4] == letra and tabela[5] == letra and tabela[6] == letra) or 
+    (tabela[1] == letra and tabela[2] == letra and tabela[3] == letra) or 
+    (tabela[7] == letra and tabela[4] == letra and tabela[1] == letra) or 
+    (tabela[8] == letra and tabela[5] == letra and tabela[2] == letra) or 
+    (tabela[9] == letra and tabela[6] == letra and tabela[3] == letra) or 
+    (tabela[7] == letra and tabela[5] == letra and tabela[3] == letra) or 
+    (tabela[9] == letra and tabela[5] == letra and tabela[1] == letra)) 
+
 def CopiarTabela(tabela):
     # Make a duplicate of the board list and return it the duplicate.
     dupeTabela = []
@@ -63,17 +56,16 @@ def CopiarTabela(tabela):
         dupeTabela.append(i)
     return dupeTabela
 
-def VerificarJogada(tabela, move):
-    # Return true if the passed move is free on the passed board.
-    return tabela[move] == ' '
+def VerificarJogada(tabela, numero):
+    #Verifica se o espaco esta ocupado
+    return tabela[numero] == ' '
 
 def MovimentodoJogador(tabela):
-    # Let the player type in their move.
-    move = ' '
-    while move not in '1 2 3 4 5 6 7 8 9'.split() or not VerificarJogada(tabela, int(move)):
+    numero = ' '
+    while numero not in '1 2 3 4 5 6 7 8 9'.split() or not VerificarJogada(tabela, int(numero)):
         print('Qual o seu movimento? (1-9)')
-        move = input()
-    return int(move)
+        numero = input()
+    return int(numero)
 
 def JogadasPossiveisComputador(tabela, movesList):
     # Returns a valid move from the passed list on the passed board.
@@ -87,14 +79,14 @@ def JogadasPossiveisComputador(tabela, movesList):
         return random.choice(possibleMoves)
     else:
         return None
+
 def MovimentoComputador(tabela, computerLetter):
-    # Given a board and the computer's letter, determine where to move and return that move.
     if computerLetter == 'X':
         playerLetter = 'O'
     else:
         playerLetter = 'X'
-    # Here is our algorithm for our Tic Tac Toe AI:
-    # First, check if we can win in the next move
+    # IA do computador segue prioridades:
+    # 1-Verifica se o computador pode ganhar em um movimento
     for i in range(1, 10):
         copy = CopiarTabela(tabela)
         if VerificarJogada(copy, i):
@@ -102,7 +94,7 @@ def MovimentoComputador(tabela, computerLetter):
             if Ganhador(copy, computerLetter):
                 return i
 
-    # Check if the player could win on their next move, and block them.
+    #2-Tenta Impedir o Jogador de Ganhar
     for i in range(1, 10):
         copy = CopiarTabela(tabela)
         if VerificarJogada(copy, i):
@@ -110,19 +102,19 @@ def MovimentoComputador(tabela, computerLetter):
             if Ganhador(copy, playerLetter):
                 return i
 
-    # Try to take one of the corners, if they are free.
-    move = JogadasPossiveisComputador(tabela, [1, 3, 7, 9])
-    if move != None:
-        return move
+    #3-Tenta Pegar algum canto se possivel
+    numero = JogadasPossiveisComputador(tabela, [1, 3, 7, 9])
+    if numero != None:
+        return numero
 
-    # Try to take the center, if it is free.
-    if VerificarJogada(board, 5):
+    #4-Tenta Pegar o Centro se Possivel
+    if VerificarJogada(tabela, 5):
         return 5
-    # Move on one of the sides.
+
+    #5-Move em algum dos lados
     return JogadasPossiveisComputador(tabela, [2, 4, 6, 8])
 
 def TabelaCheia(tabela):
-    # Return True if every space on the board has been taken. Otherwise return False.
     for i in range(1, 10):
         if VerificarJogada(tabela, i):
             return False
@@ -132,7 +124,7 @@ def TabelaCheia(tabela):
 print('Jogo da Velha')
 
 while True:
-    # Reset the board
+    # Reseta a tabela
     ATabela = [' '] * 10
     playerLetter, computerLetter = JogadorLetra()
     turn = QuemComeca()
@@ -140,10 +132,9 @@ while True:
     gameIsPlaying = True
     while gameIsPlaying:
         if turn == 'jogador':
-            # Player’s turn.
             DesTabela(ATabela)
-            move = MovimentodoJogador(ATabela)
-            Mover(ATabela, playerLetter, move)
+            numero = MovimentodoJogador(ATabela)
+            Mover(ATabela, playerLetter, numero)
 
             if Ganhador(ATabela, playerLetter):
                 DesTabela(ATabela)
@@ -157,9 +148,8 @@ while True:
                 else:
                     turn = 'computador'
         else:
-            # Computer’s turn.
-            move = MovimentoComputador(ATabela, computerLetter)
-            Mover(ATabela, computerLetter, move)
+            numero = MovimentoComputador(ATabela, computerLetter)
+            Mover(ATabela, computerLetter, numero)
 
             if Ganhador(ATabela, computerLetter):
                 DesTabela(ATabela)
